@@ -18,7 +18,7 @@
     };
     
     pkgsUnstable = import nixpkgsUnstable {
-      system = pkgs.system;
+      system = pkgs.stdenv.hostPlatform.system;
       config.allowUnfree = true;
     };
 
@@ -111,61 +111,28 @@
       ];
     };
     
-  # Init file for Argen
-  # https://gitea.lupan.pl/lupan/dotfiles/src/commit/dbdfac823c38f0212c1708636c78a21f6d84b0a1/argen/.config/argen/init <-- Reference only (unaffiliated)
+  # configuration files
   home-manager.users = lib.genAttrs
-   (lib.attrNames (lib.filterAttrs (n: v: v.isNormalUser) config.users.users))
-   (username: {
-    home.stateVersion = "26.05";
-    home.file.".config/argen/init" = {
-     executable = true;
-     text = ''
-#!/bin/sh
-
-# Display
-wlr-randr --output eDP-1 --mode 3840x2160 --scale 2 --pos 0,0 & disown
-wlr-randr --output HDMI-A-1 --mode 3840x2160 --scale 2 --pos 0,0 & disown
-
-# Startup Applications
-waybar & disown
-
-# Terminal
-argenctl binding set normal Super Return exec foot
-
-# App Launcher
-argenctl binding set normal Super D exec fuzzel
-
-# Close Window
-argenctl binding set normal Super+Shift Q window close
-
-# Window focus and swap
-argenctl binding set normal Super Left window focus prev
-argenctl binding set normal Super Right window focus next
-argenctl binding set normal Super+Shift Left window swap prev
-argenctl binding set normal Super+Shift Right window swap next
-
-argenctl binding set normal Super F window fullscreen
-argenctl binding set normal Super W window float
-
-# Audio controls
-VOL_DEC="wpctl set-volume @DEFAULT_SINK@ --limit 1.5 5%-"
-VOL_INC="wpctl set-mute @DEFAULT_SINK@ 0 && wpctl set-volume @DEFAULT_SINK@ --limit 1.5 5%+"
-VOL_TOGGLE="wpctl set-mute @DEFAULT_SINK@ toggle"
-for mode in normal locked; do
-    argenctl binding set $mode Super Bracketleft sh "$VOL_DEC"
-    argenctl binding set $mode Super Bracketright sh "$VOL_INC"
-    argenctl binding set $mode Super+Shift M sh "$VOL_TOGGLE"
-    argenctl binding set $mode None XF86AudioLowerVolume sh "$VOL_DEC"
-    argenctl binding set $mode None XF86AudioRaiseVolume sh "$VOL_INC"
-    argenctl binding set $mode None XF86AudioMute sh "$VOL_TOGGLE"
-    argenctl binding set $mode None XF86MonBrightnessDown sh "brightnessctl s 5%-"
-    argenctl binding set $mode None XF86MonBrightnessUp sh "brightnessctl s +5%"
-    argenctl binding set $mode Super+Shift Bracketleft sh "brightnessctl s 5%-"
-    argenctl binding set $mode Super+Shift Bracketright sh "brightnessctl s +5%"
-done
-       '';
-      };
-    });
+    (lib.attrNames (lib.filterAttrs (n: v: v.isNormalUser) config.users.users))
+      (username: {
+        home.stateVersion = "26.05";
+        home.file.".config/argen/init" = {
+         executable = true;
+         source = builtins.fetchurl {
+          url = "https://raw.githubusercontent.com/Joel123-spec/My-Nixos/refs/heads/main/argen_init"; # Argen Init Config
+         };
+        };
+      home.file.".config/i3bar-river/config.toml" = { 
+        source = builtins.fetchurl {
+         url = "https://raw.githubusercontent.com/Joel123-spec/My-Nixos/refs/heads/main/bar_config.toml"; # i3bar-river Config
+         };
+        };
+      home.file.".config/i3status-rust/config.toml" = {
+        source = builtins.fetchurl {
+         url = "https://raw.githubusercontent.com/Joel123-spec/My-Nixos/refs/heads/main/status_config.toml"; # i3status-rust Config
+         };
+        };
+      });
 
   # End of River --environment setup
   
