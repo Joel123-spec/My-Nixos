@@ -1,0 +1,7 @@
+command = "i3status-rs ~/.config/i3status-rust/config.toml"
+position = "top"
+height = 26
+font = "JetBrainsMono Nerd Font 11"
+
+background = "#111111cc"
+color = "#ffffffff"
