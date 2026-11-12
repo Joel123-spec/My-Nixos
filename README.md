@@ -6,6 +6,6 @@ I use Wayland protocol with River to use Argen Window Manager
 
 I am new to the Nixos community
 
-Note: have the unstable channel due to NixOS stable not having "Zig 0.17" at time of writing (11:11:2026) at (21:45) D:M:Y at H:R
+Note: have the unstable channel due to NixOS stable not having "Zig 0.17" at time of writing (11:11:2026) at (21:45) D:M:Y at H:M
 
 https://github.com/dmkhitaryan/river-next-nix-module/issues/37
