@@ -86,6 +86,8 @@
       waybar
       libinput
       pavucontrol
+      i3status-rust
+      i3bar-river
     ];
     
   # River --environment setup
