@@ -13,6 +13,15 @@
       url = "https://github.com/nix-community/home-manager/archive/refs/heads/release-26.05.tar.gz";
     };
 
+    nixpkgsUnstable = builtins.fetchTarball {
+      url = "https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz";
+    };
+    
+    pkgsUnstable = import nixpkgsUnstable {
+      system = pkgs.system;
+      config.allowUnfree = true;
+    };
+
   in
   {
     imports = [
@@ -21,9 +30,16 @@
       "${river-next}/river-module.nix"
     ];
 
+  # Override from stable channel zig 0.16 to from unstable channel zig 0.17  
+  nixpkgs.overlays = [
+   (final: prev: {
+     zig = pkgsUnstable.zigPackages."0.17";
+    })
+   ];
+
   # Experimental Features
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-   
+  
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -53,7 +69,7 @@
   };
 
   # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfree = true; 
 
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
@@ -68,6 +84,8 @@
       wl-clipboard
       wlr-randr
       waybar
+      libinput
+      pavucontrol
     ];
     
   # River --environment setup
@@ -80,21 +98,19 @@
   
   # Login Manager
    services.displayManager.defaultSession = "river-argen";
-   services.displayManager.gdm.enable = true; # Login Manager
+   services.displayManager.gdm.enable = true; # Login Manager (going to change in future)
 
   # River
   programs.river-next = {
       enable = true;
-      kanshi.enable = true;
       windowManagers = [ "argen" ]; # Window Manager
-
+      
       extraPackages = with pkgs; [ # Packages
       foot 
       fuzzel
-      kanshi 
       ];
     };
-
+    
   # Init file for Argen
   # https://gitea.lupan.pl/lupan/dotfiles/src/commit/dbdfac823c38f0212c1708636c78a21f6d84b0a1/argen/.config/argen/init <-- Reference only (unaffiliated)
   home-manager.users = lib.genAttrs
@@ -105,6 +121,10 @@
      executable = true;
      text = ''
 #!/bin/sh
+
+# Display
+wlr-randr --output eDP-1 --mode 3840x2160 --scale 2 --pos 0,0 & disown
+wlr-randr --output HDMI-A-1 --mode 3840x2160 --scale 2 --pos 0,0 & disown
 
 # Startup Applications
 waybar & disown
