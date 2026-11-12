@@ -98,7 +98,7 @@
   
   # Login Manager
    services.displayManager.defaultSession = "river-argen";
-   services.displayManager.gdm.enable = true; # Login Manager (going to change in future)
+   services.displayManager.ly.enable = true; # Login Manager
 
   # River
   programs.river-next = {
