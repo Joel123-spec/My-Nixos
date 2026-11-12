@@ -14,3 +14,5 @@ ___
 Update, I'm sure there is a much better way, but because I want this to work on the exact same laptop without other commands, I made it so this will work on the normal stable channel by overriding zig to the unstable channel
 
 NGL I had a hard time with this, so I read a lot and took snippets from a lot of different places to glue this together, if you find a better way, let me know please.
+
+THIS MEANS THAT YOU DON'T NEED TO CHANGE YOUR CHANNEL! Like NixOS should be, only the configuration file is changed, no outside commands/configuration needed!
