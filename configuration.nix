@@ -52,7 +52,6 @@
 
   # Services
   services.seatd.enable = true;
-  services.power-profiles-daemon.enable = true;
 
   # Set your time zone.
   time.timeZone = "America/New_York";
@@ -84,7 +83,6 @@
       wl-clipboard
       wlr-randr
       waybar
-      libinput
       pavucontrol
       i3status-rust
       i3bar-river
