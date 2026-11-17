@@ -30,10 +30,11 @@
       "${river-next}/river-module.nix"
     ];
 
-  # Override from stable channel zig 0.16 to from unstable channel zig 0.17  
+  # Override from stable channel
   nixpkgs.overlays = [
    (final: prev: {
      zig = pkgsUnstable.zigPackages."0.17";
+     wivrn = pkgsUnstable.wivrn;
     })
    ];
 
@@ -43,15 +44,22 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.timeout = 1;
+  boot.loader.timeout = 1; 
 
-  networking.hostName = "hybrid"; # Define your hostname.
+  networking.hostName = "nixos"; # Define your hostname.
 
   # Enable networking
   networking.networkmanager.enable = true;
 
   # Services
   services.seatd.enable = true;
+
+  # VR
+  services.wivrn = {
+    enable = true;
+    openFirewall = true;
+    package = pkgsUnstable.wivrn; # Reason for pulling the unstable wivrn is so it would match the same version as the headset quest 3
+  };
 
   # Set your time zone.
   time.timeZone = "America/New_York";
@@ -60,9 +68,9 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   # Define a user account. Set a password with ‘passwd’.
-  users.users."joel" = {
+  users.users."YOUR_USERNAME_HERE_ALL_LOWERCASE" = {
     isNormalUser = true;
-    description = "joel";
+    description = "YOUR_USERNAME_HERE_ALL_LOWERCASE";
     extraGroups = [ "networkmanager" "wheel" "video" "seat" "input" ];
     packages = with pkgs; [];
   };
@@ -70,24 +78,34 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true; 
 
+  hardware.graphics = {
+      enable = true;
+      enable32Bit = true;
+    };
+  
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
     environment.systemPackages = with pkgs; [
       micro
       firefox
       curl
+      heroic
       ## Packages for the desktop envirment
-      python3
+      python3 # strictly used for argen keybind
       brightnessctl
       adwaita-icon-theme
       wl-clipboard
       wlr-randr
-      waybar
+      wdisplays
       pavucontrol
       i3status-rust
       i3bar-river
+      fastfetch
+      nvtopPackages.full
     ];
-    
+
+    programs.steam.enable = true; # Steam
+
   # River --environment setup
   
   # Fonts
@@ -117,20 +135,22 @@
       (username: {
         home.stateVersion = "26.05";
         home.file.".config/argen/init" = {
-         executable = true;
-         source = builtins.fetchurl {
-          url = "https://raw.githubusercontent.com/Joel123-spec/My-Nixos/refs/heads/main/argen_init"; # Argen Init Config
-         };
+          executable = true;
+          text = ''
+type your argen config here
+          '';
         };
-      home.file.".config/i3bar-river/config.toml" = { 
-        source = builtins.fetchurl {
-         url = "https://raw.githubusercontent.com/Joel123-spec/My-Nixos/refs/heads/main/bar_config.toml"; # i3bar-river Config
-         };
+        
+        home.file.".config/i3bar-river/config.toml" = { 
+          text = ''
+type your i3bar-river config here
+          '';
         };
-      home.file.".config/i3status-rust/config.toml" = {
-        source = builtins.fetchurl {
-         url = "https://raw.githubusercontent.com/Joel123-spec/My-Nixos/refs/heads/main/status_config.toml"; # i3status-rust Config
-         };
+        
+        home.file.".config/i3status-rust/config.toml" = {
+          text = ''
+type your i3status-rust config here
+          '';
         };
       });
 
