@@ -90,10 +90,10 @@
     
   # River --environment setup
   
-  # Fonts
+  # Fonts and icons
   fonts.packages = with pkgs; [
-    font-awesome
-    nerd-fonts.jetbrains-mono
+    font-awesome # Icons
+    nerd-fonts.jetbrains-mono # Font
   ];
   
   # Login Manager
