@@ -11,6 +11,9 @@ separator = ""
 [icons]
 icons = "awesome6"
 
+[icons.overrides]
+volume_muted = "\ueee8"
+
 [[block]]
 block = "net"
 format = " $icon {$ssid|} "
