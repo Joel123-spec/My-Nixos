@@ -54,6 +54,16 @@
   # Services
   services.seatd.enable = true;
 
+  # Sound via pipewire
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    jack.enable = true;
+    wireplumber.enable = true;
+  };
+
   # VR
   services.wivrn = {
     enable = true;
@@ -97,7 +107,7 @@
       wl-clipboard
       wlr-randr
       wdisplays
-      pavucontrol
+      myxer # replaced pavucontrol
       i3status-rust
       i3bar-river
       fastfetch
