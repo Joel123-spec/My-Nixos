@@ -56,6 +56,14 @@ format = "  $timestamp.datetime(f:'%Y-%m-%d')  $timestamp.datetime(f:'%H:%
 
 [[block]]
 block = "custom"
+command = "echo ' 󰷜 '"
+interval = "once"
+[[block.click]]
+button = "left"
+cmd = "sh -c 'wdisplays'"
+
+[[block]]
+block = "custom"
 command = "echo '  '"
 interval = "once"
 [[block.click]]
