@@ -48,11 +48,21 @@ format = " $icon $percentage {$time|} "
 full_format = " $icon $percentage full "
 not_charging_format = "  $icon $percentage "
 
-
 [[block]]
 block = "time"
 interval = 10
 format = "  $timestamp.datetime(f:'%Y-%m-%d')  $timestamp.datetime(f:'%H:%M %Z') "
+
+[[block]]
+block = "temperature"
+interval = 5
+format = " $icon {$max|} "
+good = 45
+warning = 80
+[[block.click]]
+button = "left"
+cmd = "foot -e nvtop"
+
 
 [[block]]
 block = "custom"
