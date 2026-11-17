@@ -30,10 +30,11 @@
       "${river-next}/river-module.nix"
     ];
 
-  # Override from stable channel zig 0.16 to from unstable channel zig 0.17  
+  # Override from stable channel
   nixpkgs.overlays = [
    (final: prev: {
      zig = pkgsUnstable.zigPackages."0.17";
+     wivrn = pkgsUnstable.wivrn;
     })
    ];
 
@@ -52,6 +53,42 @@
 
   # Services
   services.seatd.enable = true;
+  services.xserver.videoDrivers = [ "nvidia" ];
+
+  # Sound via pipewire
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    jack.enable = true;
+    wireplumber.enable = true;
+  };
+
+  # VR
+  services.wivrn = {
+    enable = true;
+    openFirewall = true;
+    package = pkgsUnstable.wivrn; # Reason for pulling the unstable wivrn is so it would match the same version as the headset quest 3
+  };
+   
+  # Nvida
+  hardware.nvidia = {
+    modesetting.enable = true;
+    open = true;
+
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+
+    prime = {
+      offload = {
+        enable = true;
+        enableOffloadCmd = true;
+      };
+      
+      amdgpuBusId = "PCI:5:0:0";
+      nvidiaBusId = "PCI:1:0:0";
+    };
+  };
 
   # Set your time zone.
   time.timeZone = "America/New_York";
@@ -70,24 +107,34 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true; 
 
+  hardware.graphics = {
+      enable = true;
+      enable32Bit = true;
+    };
+  
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
     environment.systemPackages = with pkgs; [
       micro
       firefox
       curl
+      heroic
       ## Packages for the desktop envirment
-      python3
+      python3 # strictly used for argen keybind
       brightnessctl
       adwaita-icon-theme
       wl-clipboard
       wlr-randr
-      waybar
-      pavucontrol
+      wdisplays
+      myxer # replaced pavucontrol
       i3status-rust
       i3bar-river
+      fastfetch
+      nvtopPackages.full
     ];
-    
+
+    programs.steam.enable = true; # Steam
+
   # River --environment setup
   
   # Fonts and icons
@@ -133,6 +180,7 @@
          };
         };
       });
+ 
 
   # End of River --environment setup
   
