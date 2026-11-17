@@ -2,10 +2,6 @@
 
 #!/bin/sh
 
-# Display
-wlr-randr --output eDP-1 --mode 3840x2160 --scale 2 --pos 0,0 & disown
-wlr-randr --output HDMI-A-1 --mode 3840x2160 --scale 2 --pos 0,0 & disown
-
 # Startup Applications
 i3bar-river & disown
 
