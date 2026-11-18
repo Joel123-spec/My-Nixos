@@ -1,14 +1,30 @@
 input {
     profiles {
-        touchpad {
+        mouse_default {
+            pointer {
+                scroll_factor 1.0
+            }
+            libinput {
+                accel_profile flat
+                accel_speed 0.0
+            }
+        }
+
+        touchpad_default {
+            pointer {
+                scroll_factor 1.0
+            }
             libinput {
                 tap_to_click true
-                tap_button_map left_right_middle
+                natural_scroll true
+                disable_while_typing true
+                click_method clickfinger
             }
         }
     }
 
     rules [
-        type, pointer, touchpad
+        type, pointer, name, *Touchpad, touchpad_default
+        type, pointer, name, *Mouse, mouse_default
     ]
 }
