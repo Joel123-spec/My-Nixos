@@ -100,8 +100,9 @@
       firefox
       curl
       heroic
+      libinput
       ## Packages for the desktop envirment
-      python3 # strictly used for argen keybind
+      python3 # strictly used for argen keybind hopfully changed soon (unaffiliated) https://codeberg.org/pkap/argen/pulls/31
       brightnessctl
       adwaita-icon-theme
       wl-clipboard
@@ -136,6 +137,7 @@
       extraPackages = with pkgs; [ # Packages
       foot 
       fuzzel
+      (pkgs.callPackage (import "${river-next}/default.nix").packages.channel { }) # magical leopardon
       ];
     };
     
@@ -156,7 +158,13 @@ type your argen config here
 type your i3bar-river config here
           '';
         };
-        
+
+        home.file.".config/river/config.rh" = { 
+          text = ''
+type your channel (MousePAD!!!!) config here
+          '';
+        };
+
         home.file.".config/i3status-rust/config.toml" = {
           text = ''
 type your i3status-rust config here
