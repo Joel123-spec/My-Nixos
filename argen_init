@@ -1,4 +1,6 @@
-# https://gitea.lupan.pl/lupan/dotfiles/src/commit/dbdfac823c38f0212c1708636c78a21f6d84b0a1/argen/.config/argen/init <-- Reference only (unaffiliated)
+# https://gitea.lupan.pl/lupan/dotfiles/src/commit/dbdfac823c38f0212c1708636c78a21f6d84b0a1/argen/.config/argen/init 
+# https://codeberg.org/pkap/argen/src/branch/master/example/init
+References : I am unaffiliated
 
 #!/bin/sh
 
@@ -22,6 +24,10 @@ argenctl binding set normal Super+Shift Right window swap next
 
 argenctl binding set normal Super F window fullscreen
 argenctl binding set normal Super W window float
+
+# Pointer
+argenctl pointer-binding set normal Super BTN_LEFT move-window
+argenctl pointer-binding set normal Super BTN_RIGHT resize-window
 
 # Audio controls
 VOL_DEC="wpctl set-volume @DEFAULT_SINK@ --limit 1.5 5%-"
