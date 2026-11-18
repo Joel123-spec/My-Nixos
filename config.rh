@@ -1,0 +1,14 @@
+    default_touchpad {
+      libinput {
+        tap_to_click true
+        natural_scroll true
+        disable_while_typing true
+        accel_profile adaptive
+      }
+    }
+  }
+
+  rules [
+    default_touchpad, type pointer
+  ]
+}
