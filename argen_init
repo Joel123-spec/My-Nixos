@@ -6,6 +6,7 @@ References : I am unaffiliated
 
 # Startup Applications
 i3bar-river & disown
+channel & disown
 
 # Terminal
 argenctl binding set normal Super Return exec foot
