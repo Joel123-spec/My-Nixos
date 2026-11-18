@@ -119,8 +119,9 @@
       firefox
       curl
       heroic
+      libinput
       ## Packages for the desktop envirment
-      python3 # strictly used for argen keybind
+      python3 # strictly used for argen keybind hopfully changed soon (unaffiliated) https://codeberg.org/pkap/argen/pulls/31
       brightnessctl
       adwaita-icon-theme
       wl-clipboard
@@ -150,11 +151,12 @@
   # River
   programs.river-next = {
       enable = true;
-      windowManagers = [ "argen" ]; # Window Manager
-      
-      extraPackages = with pkgs; [ # Packages
-      foot 
-      fuzzel
+      windowManagers = [ "argen" ];
+  
+      extraPackages = with pkgs; [
+        foot
+        fuzzel
+        (pkgs.callPackage (import "${river-next}/default.nix").packages.channel { }) # magical leopardon
       ];
     };
     
@@ -174,6 +176,11 @@
          url = "https://raw.githubusercontent.com/Joel123-spec/My-Nixos/refs/heads/main/bar_config.toml"; # i3bar-river Config
          };
         };
+      home.file.".config/river/config.rh" = { 
+              source = builtins.fetchurl {
+               url = "https://raw.githubusercontent.com/Joel123-spec/My-Nixos/refs/heads/main/channel_config.rh"; # MOUSE CONFIG (took awhile)
+               };
+              };
       home.file.".config/i3status-rust/config.toml" = {
         source = builtins.fetchurl {
          url = "https://raw.githubusercontent.com/Joel123-spec/My-Nixos/refs/heads/main/status_config.toml"; # i3status-rust Config
